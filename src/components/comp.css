@@ -1,0 +1,143 @@
+
+header{
+    display: flex; 
+    flex-direction: row;
+    align-items: center;
+    margin: 0;
+    padding: 2px 2px;
+    border-radius: 1px;
+    box-shadow: 1px 1px 5px 1px rgba(0, 0, 0, 0.2);
+}
+
+header p{
+    flex: 90%;
+    font-weight: 600;
+}
+
+form{
+    position: relative;
+    max-width: 600px;
+    margin: 30px auto;
+    border-width: none;
+    border-radius: 10px;
+    box-shadow: 1px 1px 10px rgba(0, 0, 0, 0.2) ;
+    padding: 11.5px;
+}
+
+form input{
+    width: 100%;
+    padding: 2px;
+    border: none;
+    resize: none;
+    outline: none;
+}
+
+form textarea{
+    width: 100%;
+    border: none;
+    resize: none;
+    outline: none;
+}
+
+.container{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    padding: 2px;
+    margin: auto;
+    align-items: flex-start;
+}
+
+.containerf{
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.noteholder{
+    margin-top: 13px;
+    margin-left: 13px;
+    margin-right: 13px;
+    max-height: 412px;
+    max-width: 264px;
+    overflow: auto;
+    border-radius: 5px;
+    box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.2), -1px -1px 3px rgba(0, 0, 0, 0.2);
+    transition: box-shadow 0.5s;
+    animation: slide-up 0.5s ease;
+}
+
+.noteholderf{
+    max-width: none;
+}
+
+@keyframes slide-up {
+    0% {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.noteholder:hover{
+    box-shadow: 3px 3px 5px rgba(0, 0, 0, 0.2);
+}
+
+.tools{
+    display: none;
+}
+
+.noteholder:hover .tools{
+    display: block;
+}
+
+.cross{
+    text-decoration: line-through;
+  }
+
+.textarea{
+    padding: 5px;
+    border-width: 0;
+    resize: none;
+    white-space: pre-wrap;
+    word-wrap: break-word;
+    min-width: 240px;
+    overflow: auto;
+}
+
+.textareaf{
+    min-width: 90vw;
+    max-width: 90vw;
+}
+
+.btn{
+    position: relative;
+    float: right;
+    color: #ffb592;
+    border: none;
+    background: none;
+    cursor: pointer;
+    outline: none;
+}
+
+.hbtn{
+    flex: 1%;
+    border: none;
+    background: none;
+    cursor: pointer;
+    outline: none;
+    height: 50px;
+    width: 40px;
+    border-radius: 50%;
+    font-size: x-large;
+}
+
+@media only screen and (max-width: 538px) {
+    form {margin: 20px 20px;}
+    .textarea { min-width: 20vw;}
+    .textareaf{ min-width: 90vw;}
+}
+  
