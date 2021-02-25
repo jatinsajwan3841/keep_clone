@@ -106,6 +106,7 @@ form textarea{
     word-wrap: break-word;
     min-width: 240px;
     overflow: auto;
+    outline: none;
 }
 
 .textareaf{

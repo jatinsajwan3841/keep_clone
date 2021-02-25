@@ -52,7 +52,7 @@ export default function Base({layout}){
             <ul className={layout ? 'container' : 'container containerf'}>
                 {todoList.map(t =>
                     <li key={t.id} className = {layout ? 'noteholder' : 'noteholder noteholderf'}>
-                        <div className={layout ? 'textarea' : 'textarea textareaf'}>
+                        <div contentEditable className={layout ? 'textarea' : 'textarea textareaf'}>
                             <span className = {t.isCompleted ? 'cross' : ''} >{t.value}</span>
                             <span className='tools'>
                                 <button className='btn' onClick={() => handleDelete(t.id)}>delete</button>   
