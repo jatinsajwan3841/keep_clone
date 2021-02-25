@@ -1,24 +1,20 @@
-import logo from './logo.svg';
-import './App.css';
+import Base from './components/todo'
+import Header from "./components/header";
+import React from 'react'
+
 
 function App() {
+  const [layout, setlayout] = React.useState(true);
+
+  const lay = () => {
+    layout ? setlayout(false) : setlayout(true);   
+  }
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <>
+    <Header layt = {lay} layout = {layout}/>
+    <Base layout ={layout}/>
+    </>
   );
 }
 
