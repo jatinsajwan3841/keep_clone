@@ -1,5 +1,6 @@
 import React from 'react';
 import "./comp.css";
+import { MdDelete } from "react-icons/md";
 
 export default function Base({layout}){
     const [todo, settodo] = React.useState('');
@@ -55,7 +56,7 @@ export default function Base({layout}){
                         <div contentEditable className={layout ? 'textarea' : 'textarea textareaf'}>
                             <span className = {t.isCompleted ? 'cross' : ''} >{t.value}</span>
                             <span className='tools'>
-                                <button className='btn' onClick={() => handleDelete(t.id)}>delete</button>   
+                                <button className='btn' onClick={() => handleDelete(t.id)}><MdDelete/></button>   
                                 <input className='btn' type='checkbox' id='completed' onClick={() => handleCompleted(t.id)} />
                             </span>
                         </div>

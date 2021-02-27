@@ -24,14 +24,6 @@ form{
     padding: 11.5px;
 }
 
-form input{
-    width: 100%;
-    padding: 2px;
-    border: none;
-    resize: none;
-    outline: none;
-}
-
 form textarea{
     width: 100%;
     border: none;
@@ -122,6 +114,7 @@ form textarea{
     background: none;
     cursor: pointer;
     outline: none;
+    font-size: large;
 }
 
 .hbtn{
