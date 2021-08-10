@@ -1,0 +1,16 @@
+GET http://localhost:7000
+
+###
+
+POST http://localhost:7000/create-task HTTP/1.1
+Content-Type: application/json
+
+{
+    "value": "check"
+}
+
+###
+DELETE http://localhost:7000/delete-task?id=6112179d59715704586eaa49
+
+###
+PUT http://localhost:7000/update?id=611217c71c7ec838c492543a&isCompleted=true
