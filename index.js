@@ -56,4 +56,6 @@ app.delete("/delete-task", (req, res) => {
     return res.send("check");
 });
 
-app.listen(PORT, () => console.log("listening on port", PORT));
+app.listen(process.env.PORT || PORT, () =>
+    console.log("listening on port", PORT)
+);
