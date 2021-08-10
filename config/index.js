@@ -1,6 +1,6 @@
 import Mongoose from "mongoose";
 
-Mongoose.connect("mongodb://localhost/Notes", {
+Mongoose.connect(process.env.MONGODB_URI || "mongodb://localhost/Notes", {
     useNewUrlParser: true,
     useUnifiedTopology: true,
 });

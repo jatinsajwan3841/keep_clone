@@ -4,7 +4,7 @@ import db from "./config/index.js";
 import Notes from "./model/index.js";
 
 const app = Express();
-const PORT = 7000;
+const PORT = process.env.PORT || 7000;
 app.use(
     Express.urlencoded({
         extended: true,
@@ -56,6 +56,4 @@ app.delete("/delete-task", (req, res) => {
     return res.send("check");
 });
 
-app.listen(process.env.PORT || PORT, () =>
-    console.log("listening on port", PORT)
-);
+app.listen(PORT, () => console.log("listening on port", PORT));
