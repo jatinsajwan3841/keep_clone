@@ -1,10 +1,11 @@
+import React from "react";
 import Base from "./components/todo";
 import Header from "./components/header";
-import React from "react";
+import useStickyState from "./components/localState";
 
 function App() {
-    const [layout, setlayout] = React.useState(true);
-    const [darkMode, setDarkMode] = React.useState(false);
+    const [layout, setlayout] = useStickyState(true, "layout");
+    const [darkMode, setDarkMode] = useStickyState(false, "darkMode");
 
     const lay = () => {
         layout ? setlayout(false) : setlayout(true);
