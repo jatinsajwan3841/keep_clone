@@ -1,9 +1,9 @@
-import React from 'react';
-import "./comp.css";
+import React from "react";
+import "./comp.scss";
 import { MdDelete } from "react-icons/md";
 
-export default function Base({layout}){
-    const [todo, settodo] = React.useState('');
+const Base = ({ layout }) => {
+    const [todo, settodo] = React.useState("");
     const [todoList, settodoList] = React.useState([]);
     const [expand, setexpand] = React.useState(false);
 
@@ -11,61 +11,112 @@ export default function Base({layout}){
 
     const handlexpand = () => setexpand(true);
 
-    const handleAdd = () =>{
-        if (todo != ''){
-            const details = {
-                id: ~~(Math.random()*1000),
+    const handleAdd = async () => {
+        if (todo != "") {
+            let details = {
                 value: todo,
-                isCompleted: false,
-            } 
-           settodoList([...todoList, details]) ;
-           settodo('');
-           setexpand(false);
-        }
-        else setexpand(false);
-    }
+            };
+            settodoList([...todoList, details]);
+            details = JSON.stringify(details);
+            let send = await fetch(
+                "https://keep-clone41.herokuapp.com/create-task",
+                {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                    body: details,
+                }
+            );
+            settodo("");
+            setexpand(false);
+        } else setexpand(false);
+    };
 
-    const handleDelete = ( id) =>{
-        settodoList(todoList.filter((t) => t.id != id));
-    }
+    const handleDelete = async (id) => {
+        await settodoList(todoList.filter((t) => t._id != id));
+        await fetch(`https://keep-clone41.herokuapp.com/delete-task?id=${id}`, {
+            method: "DELETE",
+        });
+    };
 
-    const handleCompleted = (id) => {
+    const handleCompleted = async (id) => {
         //find index of that array object
-        const element = todoList.findIndex((elem) => elem.id == id);
+        const element = todoList.findIndex((elem) => elem._id === id);
         //copy array into new variable using spread op.
-        const newtodoList = [...todoList]
+        const newtodoList = [...todoList];
         //edit that element
         newtodoList[element] = {
             ...newtodoList[element],
             isCompleted: true,
         };
 
-        settodoList(newtodoList);
-    }
+        await settodoList(newtodoList);
+        await fetch(
+            `https://keep-clone41.herokuapp.com/update?id=${id}&isCompleted=${true}`,
+            {
+                method: "PUT",
+            }
+        );
+    };
 
-    return(
+    React.useEffect(() => {
+        const init = async () => {
+            let res = await fetch("http://localhost:7000", {
+                method: "GET",
+                mode: "cors",
+            });
+            res = await res.json();
+            await settodoList(res);
+        };
+        init();
+    }, []);
+
+    return (
         <>
-            <form>                
-                <textarea rows={expand ? 3:1 } value={todo} onClick={handlexpand} onChange={handleVal} onBlur={handleAdd} placeholder='Take your note...' />
+            <form>
+                <textarea
+                    rows={expand ? 3 : 1}
+                    value={todo}
+                    onClick={handlexpand}
+                    onChange={handleVal}
+                    onBlur={handleAdd}
+                    placeholder="Take your note..."
+                />
             </form>
-        
-            {todoList != [] ? 
-            <ul className={layout ? 'container' : 'container containerf'}>
-                {todoList.map(t =>
-                    <li key={t.id} className = {layout ? 'noteholder' : 'noteholder noteholderf'}>
-                        <div contentEditable className={layout ? 'textarea' : 'textarea textareaf'}>
-                            <span className = {t.isCompleted ? 'cross' : ''} >{t.value}</span>
-                            <span className='tools'>
-                                <button className='btn' onClick={() => handleDelete(t.id)}><MdDelete/></button>   
-                                <input className='btn' type='checkbox' id='completed' onClick={() => handleCompleted(t.id)} />
-                            </span>
-                        </div>
-                        
-                    </li>
-                    )}
-            </ul>
-            
-            : null}
+
+            {todoList != [] ? (
+                <ul className={`container ${!layout && "f"}`}>
+                    {todoList.map((t) => (
+                        <li
+                            key={t._id}
+                            className={`noteholder ${!layout && "f"}`}
+                        >
+                            <div className={`textarea ${!layout && "f"}`}>
+                                <span className={t.isCompleted && "cross"}>
+                                    {t.value}
+                                </span>
+                                <span className="tools">
+                                    <button
+                                        className="btn"
+                                        onClick={() => handleDelete(t._id)}
+                                    >
+                                        <MdDelete />
+                                    </button>
+                                    <input
+                                        className="btn"
+                                        type="checkbox"
+                                        id="completed"
+                                        onClick={() => handleCompleted(t._id)}
+                                    />
+                                </span>
+                            </div>
+                        </li>
+                    ))}
+                </ul>
+            ) : null}
         </>
-    )
-}
+    );
+};
+
+export default Base;
