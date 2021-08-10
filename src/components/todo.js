@@ -62,7 +62,7 @@ const Base = ({ layout }) => {
 
     React.useEffect(() => {
         const init = async () => {
-            let res = await fetch("http://localhost:7000", {
+            let res = await fetch("https://keep-clone41.herokuapp.com", {
                 method: "GET",
                 mode: "cors",
             });
