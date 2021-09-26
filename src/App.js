@@ -5,7 +5,7 @@ import useStickyState from "./components/localState";
 
 function App() {
     const [layout, setlayout] = useStickyState(true, "layout");
-    const [darkMode, setDarkMode] = useStickyState(false, "darkMode");
+    const [darkMode, setDarkMode] = useStickyState(false, "dark-mode");
 
     const lay = () => {
         layout ? setlayout(false) : setlayout(true);

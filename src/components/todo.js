@@ -97,6 +97,9 @@ const Base = ({ layout }) => {
                                     {t.value}
                                 </span>
                                 <span className="tools">
+                                    <span className="date">
+                                        {`${new Date(t.date).toLocaleString()}`}
+                                    </span>
                                     <button
                                         className="btn"
                                         onClick={() => handleDelete(t._id)}

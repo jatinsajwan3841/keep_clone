@@ -72,9 +72,9 @@ form {
 }
 
 .noteholder {
-    margin-top: 13px;
-    margin-left: 13px;
-    margin-right: 13px;
+    position: relative;
+    margin: 13px;
+    padding: 5px;
     max-height: 412px;
     max-width: 264px;
     overflow: auto;
@@ -82,6 +82,13 @@ form {
     box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.2), -1px -1px 3px rgba(0, 0, 0, 0.2);
     transition: all 0.2s ease-in-out;
     animation: slide-up 0.5s ease;
+    .date {
+        position: absolute;
+        margin: 30px 5px 0 0;
+        right: 0;
+        bottom: 0;
+        font-size: small;
+    }
     &.f {
         max-width: none;
     }
