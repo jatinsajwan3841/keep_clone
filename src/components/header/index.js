@@ -1,13 +1,14 @@
 import React from "react";
-import "./comp.scss";
+import "../dashboard/index.scss";
 import {
     RiLayoutGridLine,
     RiLayoutRowLine,
     RiSunLine,
     RiSunFill,
+    RiLogoutCircleRLine,
 } from "react-icons/ri";
 
-export default function Header({ layt, layout, darkMode, setDarkMode }) {
+const Header = ({ layt, layout, darkMode, setDarkMode, history }) => {
     return (
         <header>
             <img src="https://www.gstatic.com/images/branding/product/1x/keep_2020q4_48dp.png" />
@@ -18,6 +19,17 @@ export default function Header({ layt, layout, darkMode, setDarkMode }) {
             <div className="layoutBtn" onClick={() => setDarkMode(!darkMode)}>
                 {darkMode ? <RiSunFill /> : <RiSunLine />}
             </div>
+            <div
+                className="layoutBtn"
+                onClick={() => {
+                    localStorage.removeItem("token");
+                    history.push("/login");
+                }}
+            >
+                <RiLogoutCircleRLine />
+            </div>
         </header>
     );
-}
+};
+
+export default Header;
