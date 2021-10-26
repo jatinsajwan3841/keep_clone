@@ -1,6 +1,8 @@
 import Mongoose from "mongoose";
+import dotenv from "dotenv";
+dotenv.config();
 
-Mongoose.connect(process.env.MONGODB_URI || "mongodb://localhost/Notes", {
+Mongoose.connect(process.env.MONGODB_URI, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
 });

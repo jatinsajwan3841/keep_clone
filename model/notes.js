@@ -10,6 +10,10 @@ const notesSchema = new Mongoose.Schema({
         default: false,
     },
     date: { type: Date, default: Date.now },
+    user: {
+        type: Mongoose.Schema.Types.ObjectId,
+        ref: "User",
+    },
 });
 
 const Notes = Mongoose.model("Notes", notesSchema);

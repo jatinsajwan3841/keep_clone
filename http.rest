@@ -2,15 +2,49 @@ GET http://localhost:7000
 
 ###
 
-POST http://localhost:7000/create-task HTTP/1.1
+POST http://localhost:7000/api/register HTTP/1.1
 Content-Type: application/json
 
 {
-    "value": "check"
+    "name": "check",
+    "email": "check@check.com",
+    "password": "password"
 }
 
 ###
-DELETE http://localhost:7000/delete-task?id=6112179d59715704586eaa49
+POST http://localhost:7000/api/login HTTP/1.1
+Content-Type: application/json
+
+{
+    "email": "check@check.com",
+    "password": "password"
+}
 
 ###
-PUT http://localhost:7000/update?id=611217c71c7ec838c492543a&isCompleted=true
+GET http://localhost:7000/api/notes HTTP/1.1
+Content-Type: application/json
+x-access-token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoiY2hlY2siLCJlbWFpbCI6ImNoZWNrQGNoZWNrLmNvbSIsImlhdCI6MTYzNTE2NTM1NiwiZXhwIjoxNjQyOTQxMzU2fQ.SEJi5X6Hf8l77w-AbE38-V1ZKFecubSVLKIk8VroRd8
+
+###
+POST http://localhost:7000/api/notes HTTP/1.1
+Content-Type: application/json
+x-access-token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoiY2hlY2siLCJlbWFpbCI6ImNoZWNrQGNoZWNrLmNvbSIsImlhdCI6MTYzNTE2NTM1NiwiZXhwIjoxNjQyOTQxMzU2fQ.SEJi5X6Hf8l77w-AbE38-V1ZKFecubSVLKIk8VroRd8
+
+{
+    "value": "dont know yet"
+}
+
+###
+PUT http://localhost:7000/api/notes?id=6176efa064d0f929fc288be0&isCompleted=true HTTP/1.1
+Content-Type: application/json
+x-access-token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoiY2hlY2siLCJlbWFpbCI6ImNoZWNrQGNoZWNrLmNvbSIsImlhdCI6MTYzNTE2NTM1NiwiZXhwIjoxNjQyOTQxMzU2fQ.SEJi5X6Hf8l77w-AbE38-V1ZKFecubSVLKIk8VroRd8
+
+{
+    "value": "dont know yep"
+}
+
+###
+DELETE http://localhost:7000/api/notes?id=6176efa064d0f929fc288be0 HTTP/1.1
+Content-Type: application/json
+x-access-token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoiY2hlY2siLCJlbWFpbCI6ImNoZWNrQGNoZWNrLmNvbSIsImlhdCI6MTYzNTE2NTM1NiwiZXhwIjoxNjQyOTQxMzU2fQ.SEJi5X6Hf8l77w-AbE38-V1ZKFecubSVLKIk8VroRd8
+
