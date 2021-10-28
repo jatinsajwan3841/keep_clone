@@ -99,7 +99,7 @@ app.put("/api/notes", async (req, res) => {
         const decoded = jwt.verify(token, process.env.JWT_SECRET);
         const filter = { _id: req.query.id };
         const update = {
-            value: req.body.note,
+            value: req.body.value,
             isCompleted: req.query.isCompleted,
         };
         Notes.updateOne(filter, update, { upsert: true }, (err, changed) => {
