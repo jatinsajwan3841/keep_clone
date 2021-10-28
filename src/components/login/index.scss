@@ -3,9 +3,16 @@
     flex-direction: column;
     max-width: 500px;
     margin: 80px auto 10px auto;
-    padding: 30px;
+    padding: 10px 30px 30px 30px;
     border-radius: 10px;
     box-shadow: 0 0 10px grey;
+    .start {
+        text-align: center;
+        .high {
+            display: block;
+            font-weight: lighter;
+        }
+    }
     .avatar {
         position: relative;
         height: 100px;
@@ -91,6 +98,19 @@
             &:hover {
                 border-bottom: 2px solid black;
             }
+            &:not(:placeholder-shown) {
+                &:invalid {
+                    & + .border-bottom {
+                        width: 100%;
+                        background: red;
+                    }
+                }
+                & ~ .placeholder {
+                    top: 3px;
+                    left: 0px;
+                    font-size: small;
+                }
+            }
         }
     }
     .form-button {
@@ -112,7 +132,6 @@
     .link {
         float: right;
         text-decoration: none;
-        text-shadow: 0 0 5px rgba(170, 73, 73, 0.3);
         color: rgb(170, 73, 73);
         &:visited {
             color: rgb(170, 73, 73);

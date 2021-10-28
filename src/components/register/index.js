@@ -37,13 +37,22 @@ const Register = () => {
     }, []);
     return (
         <div className="login-container">
+            <h3 className="start">
+                Let's get started <span className="high">╰(*°▽°*)╯</span>{" "}
+            </h3>
             <div className="avatar" />
             <form onSubmit={handleSubmit}>
                 <div className="inp-content">
                     <label htmlFor="name" className="label">
                         Please enter your name
                     </label>
-                    <input type="text" name="name" required />
+                    <input
+                        type="text"
+                        name="name"
+                        placeholder=" "
+                        minLength="3"
+                        required
+                    />
                     <hr className="border-bottom" />
                     <span className="placeholder">name</span>
                 </div>
@@ -51,7 +60,7 @@ const Register = () => {
                     <label htmlFor="email" className="label">
                         Please enter your email
                     </label>
-                    <input type="email" name="email" required />
+                    <input type="email" name="email" placeholder=" " required />
                     <hr className="border-bottom" />
                     <span className="placeholder">email</span>
                 </div>
@@ -59,7 +68,13 @@ const Register = () => {
                     <label htmlFor="password" className="label">
                         Please enter your password
                     </label>
-                    <input type="password" name="password" required />
+                    <input
+                        type="password"
+                        name="password"
+                        placeholder=" "
+                        minLength="6"
+                        required
+                    />
                     <hr className="border-bottom" />
                     <span className="placeholder">password</span>
                 </div>
