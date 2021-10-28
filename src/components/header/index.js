@@ -1,5 +1,5 @@
 import React from "react";
-import "../dashboard/index.scss";
+import "./index.scss";
 import {
     RiLayoutGridLine,
     RiLayoutRowLine,
@@ -10,9 +10,9 @@ import {
 
 const Header = ({ layt, layout, darkMode, setDarkMode, history }) => {
     return (
-        <header>
+        <header className="header">
             <img src="https://www.gstatic.com/images/branding/product/1x/keep_2020q4_48dp.png" />
-            <p>Keep clone</p>
+            <p className="KC">Keep clone</p>
             <div className="layoutBtn" onClick={() => layt()}>
                 {layout ? <RiLayoutRowLine /> : <RiLayoutGridLine />}
             </div>

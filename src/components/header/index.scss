@@ -1,0 +1,21 @@
+.header {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    margin: 0;
+    padding: 2px 2px;
+    border-radius: 1px;
+    box-shadow: 1px 1px 5px 1px rgba(0, 0, 0, 0.2);
+    .KC {
+        flex: 90%;
+        font-weight: 600;
+    }
+}
+.layoutBtn {
+    flex: 1%;
+    cursor: pointer;
+    width: 50px;
+    border-radius: 50%;
+    font-size: x-large;
+    margin: 0 5px;
+}

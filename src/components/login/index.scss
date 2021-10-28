@@ -1,0 +1,128 @@
+.login-container {
+    display: flex;
+    flex-direction: column;
+    max-width: 500px;
+    margin: 80px auto 10px auto;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px grey;
+    .avatar {
+        position: relative;
+        height: 100px;
+        width: 100px;
+        margin: auto;
+        border-radius: 50%;
+        background-color: rgb(160, 160, 160);
+        &::before {
+            content: "";
+            display: block;
+            position: absolute;
+            top: 10px;
+            left: 30px;
+            height: 40px;
+            width: 40px;
+            background-color: grey;
+            clip-path: circle(50% at 50% 50%);
+        }
+        &::after {
+            content: "";
+            display: block;
+            position: absolute;
+            bottom: 5px;
+            left: 20px;
+            height: 50px;
+            width: 60px;
+            background-color: grey;
+            clip-path: polygon(50% 0%, 100% 38%, 82% 100%, 18% 100%, 0% 38%);
+        }
+    }
+    .inp-content {
+        position: relative;
+        width: 100%;
+        margin: 5px 0;
+        .label {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            font-size: smaller;
+            color: grey;
+        }
+        .placeholder {
+            position: absolute;
+            top: 23px;
+            left: 5px;
+            color: grey;
+            z-index: -1;
+            transition: all 200ms ease-in-out;
+        }
+        .border-bottom {
+            position: absolute;
+            left: 0;
+            bottom: 20px;
+            margin: auto;
+            display: block;
+            height: 2px;
+            width: 0px;
+            border: none;
+            background: transparent;
+            transition: width 0.5s ease, background-color 0.5s ease;
+        }
+        input {
+            margin: 20px 0;
+            border: 0;
+            height: 30px;
+            width: 100%;
+            background: transparent;
+            box-sizing: border-box;
+            border-bottom: 1px solid black;
+            transition: border-bottom 50ms ease;
+            &:focus {
+                outline: none;
+                & + .border-bottom {
+                    width: 100%;
+                    background: blue;
+                    & + .placeholder {
+                        top: 3px;
+                        left: 0px;
+                        font-size: small;
+                    }
+                }
+            }
+            &:hover {
+                border-bottom: 2px solid black;
+            }
+        }
+    }
+    .form-button {
+        position: relative;
+        border: none;
+        color: white;
+        font-size: medium;
+        background-color: rgba(255, 0, 0, 0.7);
+        cursor: pointer;
+        padding: 10px;
+        margin: 10px auto;
+        border-radius: 5px;
+        overflow: hidden;
+        box-shadow: 0 0 3px grey;
+        &:hover {
+            box-shadow: 0 0 7px grey;
+        }
+    }
+    .link {
+        float: right;
+        text-decoration: none;
+        text-shadow: 0 0 5px rgba(170, 73, 73, 0.3);
+        color: rgb(170, 73, 73);
+        &:visited {
+            color: rgb(170, 73, 73);
+        }
+    }
+}
+
+@media only screen and (max-width: 538px) {
+    .login-container {
+        margin: 0 auto;
+        box-shadow: none;
+    }
+}

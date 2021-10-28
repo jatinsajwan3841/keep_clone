@@ -84,6 +84,7 @@ const Dashboard = () => {
                     "Content-Type": "application/json",
                     "x-access-token": localStorage.getItem("token"),
                 },
+                body: JSON.stringify({ value: newtodoList[element].value }),
             }
         );
         if (res.status === 200) {
@@ -142,7 +143,7 @@ const Dashboard = () => {
                 setDarkMode={setDarkMode}
                 history={history}
             />
-            <form>
+            <form className="addNote">
                 <textarea
                     rows={expand ? 3 : 1}
                     value={todo}
@@ -160,7 +161,7 @@ const Dashboard = () => {
                             key={t._id}
                             className={`noteholder ${!layout && "f"}`}
                         >
-                            <div className={`textarea ${!layout && "f"}`}>
+                            <div className={`note-text ${!layout && "f"}`}>
                                 <span className={t.isCompleted && "cross"}>
                                     {t.value}
                                 </span>

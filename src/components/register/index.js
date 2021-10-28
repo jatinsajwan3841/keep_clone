@@ -1,5 +1,6 @@
 import React from "react";
 import { useHistory, Link } from "react-router-dom";
+import "../login/index.scss";
 
 const Register = () => {
     let history = useHistory();
@@ -35,27 +36,42 @@ const Register = () => {
         }
     }, []);
     return (
-        <div>
+        <div className="login-container">
+            <div className="avatar" />
             <form onSubmit={handleSubmit}>
-                <label htmlFor="name">Please enter your Name: </label>
-                <input type="text" name="name" placeholder="Name" required />
-                <br />
-
-                <label htmlFor="email">Please enter your Email: </label>
-                <input type="email" name="email" placeholder="Email" required />
-                <br />
-
-                <label htmlFor="password">Please enter your password: </label>
-                <input
-                    type="password"
-                    name="password"
-                    placeholder="password"
-                    required
-                />
-                <br />
-                <input type="submit" value="Register" />
-                <Link to="/login">
-                    <button>Click here to login</button>
+                <div className="inp-content">
+                    <label htmlFor="name" className="label">
+                        Please enter your name
+                    </label>
+                    <input type="text" name="name" required />
+                    <hr className="border-bottom" />
+                    <span className="placeholder">name</span>
+                </div>
+                <div className="inp-content">
+                    <label htmlFor="email" className="label">
+                        Please enter your email
+                    </label>
+                    <input type="email" name="email" required />
+                    <hr className="border-bottom" />
+                    <span className="placeholder">email</span>
+                </div>
+                <div className="inp-content">
+                    <label htmlFor="password" className="label">
+                        Please enter your password
+                    </label>
+                    <input type="password" name="password" required />
+                    <hr className="border-bottom" />
+                    <span className="placeholder">password</span>
+                </div>
+                <center>
+                    <input
+                        type="submit"
+                        value="Register"
+                        className="form-button"
+                    />
+                </center>
+                <Link to="/login" className="link">
+                    Click here to login
                 </Link>
             </form>
         </div>
