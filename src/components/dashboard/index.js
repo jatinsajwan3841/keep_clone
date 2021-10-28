@@ -3,6 +3,7 @@ import Header from "../header";
 import useStickyState from "../localState";
 import jwt from "jsonwebtoken";
 import { useHistory } from "react-router-dom";
+import { LoadContext } from "../context";
 import "./index.scss";
 import { MdDelete } from "react-icons/md";
 
@@ -13,6 +14,7 @@ const Dashboard = () => {
     const [layout, setlayout] = useStickyState(true, "layout");
     const [darkMode, setDarkMode] = useStickyState(false, "dark-mode");
     const history = useHistory();
+    const { setLoading } = React.useContext(LoadContext);
 
     const lay = () => {
         setlayout((prev) => !prev);
@@ -27,6 +29,7 @@ const Dashboard = () => {
             let details = {
                 value: todo,
             };
+            setLoading(true);
             let send = await fetch(
                 `${process.env.REACT_APP_BASE_URL + "/notes"}`,
                 {
@@ -38,6 +41,7 @@ const Dashboard = () => {
                     body: JSON.stringify(details),
                 }
             );
+            setLoading(false);
             if (send.status === 200) {
                 details = await send.json();
                 settodoList([...todoList, details]);
@@ -50,6 +54,7 @@ const Dashboard = () => {
     };
 
     const handleDelete = async (id) => {
+        setLoading(true);
         let res = await fetch(
             `${process.env.REACT_APP_BASE_URL}/notes?id=${id}`,
             {
@@ -60,6 +65,7 @@ const Dashboard = () => {
                 },
             }
         );
+        setLoading(false);
         if (res.status === 200) {
             settodoList(todoList.filter((t) => t._id != id));
         } else {
@@ -114,7 +120,9 @@ const Dashboard = () => {
             if (res.status === 200) {
                 res = await res.json();
                 await settodoList(res);
+                setLoading(false);
             } else if (res.status === 401) {
+                setLoading(false);
                 localStorage.removeItem("token");
                 alert("relogin again");
                 history.replace("/login");
@@ -125,11 +133,13 @@ const Dashboard = () => {
             const user = jwt.decode(token);
             if (!user) {
                 localStorage.removeItem("token");
+                setLoading(false);
                 history.replace("/login");
             } else {
                 init(token);
             }
         } else {
+            setLoading(false);
             history.replace("/login");
         }
     }, []);
@@ -179,6 +189,7 @@ const Dashboard = () => {
                                         className="btn"
                                         type="checkbox"
                                         id="completed"
+                                        checked={t.isCompleted}
                                         onClick={() => handleCompleted(t._id)}
                                     />
                                 </span>

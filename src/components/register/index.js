@@ -1,11 +1,14 @@
 import React from "react";
 import { useHistory, Link } from "react-router-dom";
+import { LoadContext } from "../context";
 import "../login/index.scss";
 
 const Register = () => {
     let history = useHistory();
+    const { setLoading } = React.useContext(LoadContext);
     const handleSubmit = async (e) => {
         e.preventDefault();
+        setLoading(true);
         const name = e.target.email.value;
         const email = e.target.email.value;
         const pass = e.target.password.value;
@@ -23,6 +26,7 @@ const Register = () => {
                 }),
             }
         );
+        setLoading(false);
         if (res.status === 200) {
             history.push("/login");
         } else {

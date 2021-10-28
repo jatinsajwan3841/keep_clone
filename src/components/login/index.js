@@ -1,11 +1,14 @@
 import React from "react";
 import { useHistory, Link } from "react-router-dom";
+import { LoadContext } from "../context";
 import "./index.scss";
 
 const Login = () => {
     let history = useHistory();
+    const { setLoading } = React.useContext(LoadContext);
     const handleSubmit = async (e) => {
         e.preventDefault();
+        setLoading(true);
         const email = e.target.email.value;
         const pass = e.target.password.value;
         let res = await fetch(`${process.env.REACT_APP_BASE_URL + "/login"}`, {
@@ -20,6 +23,7 @@ const Login = () => {
             localStorage.setItem("token", response.user);
             history.push("/");
         } else {
+            setLoading(false);
             alert("wrong username or password");
         }
     };
