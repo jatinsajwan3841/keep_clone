@@ -8,6 +8,10 @@ import Notes from "./model/notes.js";
 import jwt from "jsonwebtoken";
 import bcrypt from "bcrypt";
 
+const corsOptions = {
+    origin: process.env.CORES_ORIGIN,
+    optionsSuccessStatus: 200,
+};
 const app = Express();
 const PORT = process.env.PORT;
 app.use(
@@ -16,7 +20,8 @@ app.use(
     })
 );
 app.use(Express.json());
-app.use(cors());
+app.use(cors(corsOptions));
+app.options("*", cors());
 
 app.post("/api/login", async (req, res) => {
     const user = await User.findOne({ email: req.body.email });
