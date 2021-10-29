@@ -1,10 +1,10 @@
 import React from "react";
-import { useHistory, Link } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 import { LoadContext } from "../context";
 import "../login/index.scss";
 
-const Register = () => {
-    const [dp, setDp] = React.useState(false);
+const Profile = ({ user, handleProfile, setUser }) => {
+    const [dp, setDp] = React.useState("false");
     let history = useHistory();
     const { setLoading } = React.useContext(LoadContext);
     const handleDp = async (e) => {
@@ -23,46 +23,48 @@ const Register = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         setLoading(true);
-        const name = e.target.email.value;
-        const email = e.target.email.value;
-        const pass = e.target.password.value;
-        let res = await fetch(
-            `${process.env.REACT_APP_BASE_URL + "/register"}`,
-            {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                },
-                body: JSON.stringify({
-                    name: name,
-                    email: email,
-                    password: pass,
-                    dp: dp,
-                }),
-            }
-        );
+        const name = e.target.name.value;
+        let pass = e.target.password.value;
+        if (pass === "") {
+            pass = false;
+        }
+        let res = await fetch(`${process.env.REACT_APP_BASE_URL + "/update"}`, {
+            method: "PUT",
+            headers: {
+                "Content-Type": "application/json",
+                "x-access-token": localStorage.getItem("token"),
+            },
+            body: JSON.stringify({
+                name: name,
+                password: pass,
+                dp: dp,
+            }),
+        });
         setLoading(false);
         if (res.status === 200) {
-            history.push("/login");
+            alert("yay! successfully updated!");
+            setUser([name, user[1], dp]);
+            handleProfile();
+            if (pass) {
+                localStorage.removeItem("token");
+                history.replace("/login");
+            }
         } else {
-            alert("user already exist");
+            alert("Something went wrong");
         }
     };
     React.useEffect(() => {
-        const token = localStorage.getItem("token");
-        if (token) {
-            history.replace("/");
-        }
+        setDp(user[2]);
     }, []);
     return (
         <div className="login-container">
             <h3 className="start">
-                Let's get started <span className="high">╰(*°▽°*)╯</span>{" "}
+                Here's your profile <span className="high">╰(*°▽°*)╯</span>{" "}
             </h3>
             <form onSubmit={handleSubmit}>
                 <label>
                     <div className="avatar">
-                        {dp && (
+                        {dp !== "false" && (
                             <img
                                 className="dp"
                                 alt="dp"
@@ -80,12 +82,13 @@ const Register = () => {
                 </label>
                 <div className="inp-content">
                     <label htmlFor="name" className="label">
-                        Please enter your name
+                        Your name
                     </label>
                     <input
                         type="text"
                         name="name"
                         placeholder=" "
+                        defaultValue={user[0]}
                         minLength="3"
                         required
                     />
@@ -94,22 +97,27 @@ const Register = () => {
                 </div>
                 <div className="inp-content">
                     <label htmlFor="email" className="label">
-                        Please enter your email
+                        Your email
                     </label>
-                    <input type="email" name="email" placeholder=" " required />
+                    <input
+                        type="email"
+                        name="email"
+                        defaultValue={user[1]}
+                        disabled
+                        required
+                    />
                     <hr className="border-bottom" />
                     <span className="placeholder">email</span>
                 </div>
                 <div className="inp-content">
                     <label htmlFor="password" className="label">
-                        Please enter your password
+                        Changing password will log you out!
                     </label>
                     <input
                         type="password"
                         name="password"
                         placeholder=" "
                         minLength="6"
-                        required
                     />
                     <hr className="border-bottom" />
                     <span className="placeholder">password</span>
@@ -117,16 +125,16 @@ const Register = () => {
                 <center>
                     <input
                         type="submit"
-                        value="Register"
+                        value="Update"
                         className="form-button"
                     />
                 </center>
-                <Link to="/login" className="link">
-                    Click here to login
-                </Link>
+                <div className="link" onClick={handleProfile}>
+                    Click here to go back!
+                </div>
             </form>
         </div>
     );
 };
 
-export default Register;
+export default Profile;

@@ -18,4 +18,33 @@
     border-radius: 50%;
     font-size: x-large;
     margin: 0 5px;
+    .dp {
+        position: relative;
+        height: 30px;
+        width: 30px;
+        background-color: rgb(236, 236, 236);
+        border-radius: 50%;
+        &::before {
+            content: "";
+            display: block;
+            position: absolute;
+            top: 2px;
+            left: 9px;
+            height: 12px;
+            width: 12px;
+            background-color: grey;
+            clip-path: circle(50% at 50% 50%);
+        }
+        &::after {
+            content: "";
+            display: block;
+            position: absolute;
+            bottom: 3px;
+            left: 6px;
+            height: 15px;
+            width: 18px;
+            background-color: grey;
+            clip-path: polygon(50% 0%, 100% 38%, 82% 100%, 18% 100%, 0% 38%);
+        }
+    }
 }

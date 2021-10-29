@@ -1,5 +1,6 @@
 import React from "react";
 import Header from "../header";
+import Profile from "../profile";
 import useStickyState from "../localState";
 import jwt from "jsonwebtoken";
 import { useHistory } from "react-router-dom";
@@ -13,6 +14,8 @@ const Dashboard = () => {
     const [expand, setexpand] = React.useState(false);
     const [layout, setlayout] = useStickyState(true, "layout");
     const [darkMode, setDarkMode] = useStickyState(false, "dark-mode");
+    const [user, setUser] = React.useState(["false", "false", "false"]);
+    const [showProfile, setShowProfile] = React.useState(false);
     const history = useHistory();
     const { setLoading } = React.useContext(LoadContext);
 
@@ -23,6 +26,8 @@ const Dashboard = () => {
     const handleVal = (e) => settodo(e.target.value);
 
     const handlexpand = () => setexpand(true);
+
+    const handleProfile = () => setShowProfile((prev) => !prev);
 
     const handleAdd = async () => {
         if (todo != "") {
@@ -118,7 +123,8 @@ const Dashboard = () => {
             setLoading(false);
             if (res.status === 200) {
                 res = await res.json();
-                await settodoList(res);
+                settodoList(res[0]);
+                setUser([res[1], res[2], res[3]]);
             } else if (res.status === 401) {
                 localStorage.removeItem("token");
                 alert("relogin again");
@@ -149,52 +155,76 @@ const Dashboard = () => {
                 darkMode={darkMode}
                 setDarkMode={setDarkMode}
                 history={history}
+                dp={user[2]}
+                handleProfile={handleProfile}
             />
-            <form className="addNote">
-                <textarea
-                    rows={expand ? 3 : 1}
-                    value={todo}
-                    onClick={handlexpand}
-                    onChange={handleVal}
-                    onBlur={handleAdd}
-                    placeholder="Take your note..."
+            {showProfile ? (
+                <Profile
+                    user={user}
+                    handleProfile={handleProfile}
+                    setUser={setUser}
                 />
-            </form>
+            ) : (
+                <>
+                    <form className="addNote">
+                        <textarea
+                            rows={expand ? 3 : 1}
+                            value={todo}
+                            onClick={handlexpand}
+                            onChange={handleVal}
+                            onBlur={handleAdd}
+                            placeholder="Take your note..."
+                        />
+                    </form>
 
-            {todoList != [] ? (
-                <ul className={`container ${!layout && "f"}`}>
-                    {todoList.map((t) => (
-                        <li
-                            key={t._id}
-                            className={`noteholder ${!layout && "f"}`}
-                        >
-                            <div className={`note-text ${!layout && "f"}`}>
-                                <span className={t.isCompleted && "cross"}>
-                                    {t.value}
-                                </span>
-                                <span className="tools">
-                                    <span className="date">
-                                        {`${new Date(t.date).toLocaleString()}`}
-                                    </span>
-                                    <button
-                                        className="btn"
-                                        onClick={() => handleDelete(t._id)}
+                    {todoList != [] ? (
+                        <ul className={`container ${!layout && "f"}`}>
+                            {todoList.map((t) => (
+                                <li
+                                    key={t._id}
+                                    className={`noteholder ${!layout && "f"}`}
+                                >
+                                    <div
+                                        className={`note-text ${
+                                            !layout && "f"
+                                        }`}
                                     >
-                                        <MdDelete />
-                                    </button>
-                                    <input
-                                        className="btn"
-                                        type="checkbox"
-                                        id="completed"
-                                        checked={t.isCompleted}
-                                        onClick={() => handleCompleted(t._id)}
-                                    />
-                                </span>
-                            </div>
-                        </li>
-                    ))}
-                </ul>
-            ) : null}
+                                        <span
+                                            className={t.isCompleted && "cross"}
+                                        >
+                                            {t.value}
+                                        </span>
+                                        <span className="tools">
+                                            <span className="date">
+                                                {`${new Date(
+                                                    t.date
+                                                ).toLocaleString()}`}
+                                            </span>
+                                            <button
+                                                className="btn"
+                                                onClick={() =>
+                                                    handleDelete(t._id)
+                                                }
+                                            >
+                                                <MdDelete />
+                                            </button>
+                                            <input
+                                                className="btn"
+                                                type="checkbox"
+                                                id="completed"
+                                                checked={t.isCompleted}
+                                                onChange={() =>
+                                                    handleCompleted(t._id)
+                                                }
+                                            />
+                                        </span>
+                                    </div>
+                                </li>
+                            ))}
+                        </ul>
+                    ) : null}
+                </>
+            )}
         </div>
     );
 };

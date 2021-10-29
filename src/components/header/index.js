@@ -8,11 +8,31 @@ import {
     RiLogoutCircleRLine,
 } from "react-icons/ri";
 
-const Header = ({ layt, layout, darkMode, setDarkMode, history }) => {
+const Header = ({
+    layt,
+    layout,
+    darkMode,
+    setDarkMode,
+    history,
+    dp,
+    handleProfile,
+}) => {
     return (
         <header className="header">
             <img src="https://www.gstatic.com/images/branding/product/1x/keep_2020q4_48dp.png" />
             <p className="KC">Keep clone</p>
+            <div className="layoutBtn" onClick={handleProfile}>
+                {dp !== "false" ? (
+                    <img
+                        className="dp"
+                        alt="dp"
+                        src={`data:image/jpeg;base64,${dp}`}
+                    />
+                ) : (
+                    <div className="dp" />
+                )}
+            </div>
+
             <div className="layoutBtn" onClick={() => layt()}>
                 {layout ? <RiLayoutRowLine /> : <RiLayoutGridLine />}
             </div>
