@@ -4,6 +4,7 @@ const UserSchema = new Mongoose.Schema({
     name: { type: String, required: true },
     email: { type: String, required: true, unique: true },
     password: { type: String, required: true },
+    dp: { type: String },
     notes: [
         {
             type: Mongoose.Schema.Types.ObjectId,

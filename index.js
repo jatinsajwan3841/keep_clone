@@ -20,7 +20,7 @@ app.use(
         extended: true,
     })
 );
-app.use(Express.json());
+app.use(Express.json({ limit: "3mb" }));
 app.use(cors(corsOptions));
 app.options("*", cors());
 
@@ -54,11 +54,40 @@ app.post("/api/register", async (req, res) => {
             name: req.body.name,
             email: req.body.email,
             password: hashedPass,
+            dp: req.body.dp,
         });
         res.status(200).send("User created successfully");
     } catch (err) {
         console.log(err);
         res.status(404).send({ error: "duplicate_email" });
+    }
+});
+
+app.put("/api/update", async (req, res) => {
+    const token = req.headers["x-access-token"];
+    try {
+        const decoded = await jwt.verify(token, process.env.JWT_SECRET);
+        const email = decoded.email;
+        const updatedName = req.body.name;
+        const updatedPass = req.body.password;
+        const updatedDp = req.body.dp;
+        if (updatedPass) {
+            const saltRound = 10;
+            const hashedPass = await bcrypt.hash(updatedPass, saltRound);
+            let res = await User.updateOne(
+                { email: email },
+                { name: updatedName, password: hashedPass, dp: updatedDp }
+            );
+        } else {
+            let res = await User.updateOne(
+                { email: email },
+                { name: updatedName, dp: updatedDp }
+            );
+        }
+        res.status(200).send("updated");
+    } catch (err) {
+        console.log(err);
+        res.status(500).send("Sorry could not update");
     }
 });
 
@@ -68,7 +97,9 @@ app.get("/api/notes", async (req, res) => {
         const decoded = await jwt.verify(token, process.env.JWT_SECRET);
         const email = decoded.email;
         const user = await User.findOne({ email: email }).populate("notes");
-        return res.status(200).send(user.notes);
+        return res
+            .status(200)
+            .send([user.notes, user.name, user.email, user.dp]);
     } catch (err) {
         console.log(err);
         return res.status(401).send({ error: "invalid token" });
