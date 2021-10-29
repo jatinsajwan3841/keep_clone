@@ -2,6 +2,7 @@ import dotenv from "dotenv";
 dotenv.config();
 import Express from "express";
 import cors from "cors";
+import Mongoose from "mongoose";
 import db from "./config/index.js";
 import User from "./model/user.js";
 import Notes from "./model/notes.js";
@@ -84,11 +85,10 @@ app.post("/api/notes", async (req, res) => {
             value: req.body.value,
             user: user._id,
         });
-        await User.findOneAndUpdate(
+        await User.updateOne(
             { email: email },
             { $push: { notes: newNote._id } }
         );
-
         res.status(200).send(newNote);
     } catch (err) {
         console.log(err);
@@ -101,7 +101,7 @@ app.post("/api/notes", async (req, res) => {
 app.put("/api/notes", async (req, res) => {
     const token = req.headers["x-access-token"];
     try {
-        const decoded = jwt.verify(token, process.env.JWT_SECRET);
+        const decoded = await jwt.verify(token, process.env.JWT_SECRET);
         const filter = { _id: req.query.id };
         const update = {
             value: req.body.value,
@@ -119,16 +119,21 @@ app.put("/api/notes", async (req, res) => {
     }
 });
 
-app.delete("/api/notes", (req, res) => {
+app.delete("/api/notes", async (req, res) => {
     const token = req.headers["x-access-token"];
     try {
-        const decoded = jwt.verify(token, process.env.JWT_SECRET);
+        const decoded = await jwt.verify(token, process.env.JWT_SECRET);
+        const email = decoded.email;
         Notes.deleteOne({ _id: req.query.id }, (err) => {
             if (err) {
                 return res.status(500).send({ error: "not deleted" });
             }
             return res.status(200).send("deleted");
         });
+        await User.updateOne(
+            { email: email },
+            { $pull: { notes: Mongoose.Types.ObjectId(req.query.id) } }
+        );
     } catch (err) {
         console.log(err);
         return res.status(401).send({ error: "invalid token" });
