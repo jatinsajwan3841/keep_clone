@@ -74,11 +74,8 @@ const Dashboard = () => {
     };
 
     const handleCompleted = async (id) => {
-        //find index of that array object
         const element = todoList.findIndex((elem) => elem._id === id);
-        //copy array into new variable using spread op.
         const newtodoList = [...todoList];
-        //edit that element
         let temp = newtodoList[element].isCompleted;
         let res = await fetch(
             `${
@@ -106,6 +103,7 @@ const Dashboard = () => {
     };
 
     React.useEffect(() => {
+        setLoading(true);
         const init = async (token) => {
             let res = await fetch(
                 `${process.env.REACT_APP_BASE_URL + "/notes"}`,
@@ -117,12 +115,11 @@ const Dashboard = () => {
                     },
                 }
             );
+            setLoading(false);
             if (res.status === 200) {
                 res = await res.json();
                 await settodoList(res);
-                setLoading(false);
             } else if (res.status === 401) {
-                setLoading(false);
                 localStorage.removeItem("token");
                 alert("relogin again");
                 history.replace("/login");

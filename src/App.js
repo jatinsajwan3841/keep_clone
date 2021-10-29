@@ -11,7 +11,7 @@ function App() {
     return (
         <LoadContext.Provider value={{ setLoading }}>
             {loading && <Loading />}
-            <Router basename="/keep_clone">
+            <Router>
                 <Route path="/login" exact component={Login} />
                 <Route path="/register" exact component={Register} />
                 <Route path="/" exact component={Dashboard} />
