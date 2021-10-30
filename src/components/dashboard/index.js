@@ -87,7 +87,7 @@ const Dashboard = () => {
                 process.env.REACT_APP_BASE_URL
             }/notes?id=${id}&isCompleted=${!temp}`,
             {
-                method: "PUT",
+                method: "PATCH",
                 headers: {
                     "Content-Type": "application/json",
                     "x-access-token": localStorage.getItem("token"),
