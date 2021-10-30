@@ -129,7 +129,7 @@ app.post("/api/notes", async (req, res) => {
     }
 });
 
-app.put("/api/notes", async (req, res) => {
+app.patch("/api/notes", async (req, res) => {
     const token = req.headers["x-access-token"];
     try {
         const decoded = await jwt.verify(token, process.env.JWT_SECRET);
